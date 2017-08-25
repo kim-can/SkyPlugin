@@ -163,7 +163,7 @@ public class Entry extends JPanel {
 					mElement.background ="";
 					mElement.isAddBackground = false;
 				}else{
-					mElement.background = "sky.Background(BackgroundType." + value + ")";
+					mElement.background = "sky.Background(sky.BackgroundType." + value + ")";
 					mElement.isAddBackground = true;
 				}
 			}
