@@ -2,9 +2,9 @@
   <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
 
   <name>sky plugin</name><!--插件名称-->
-  <version>1.0</version>
+  <version>1.3</version>
 
-  <idea-version since-build="141.0"/>
+  <idea-version since-build="123.72"/>
 
   <!-- 描述-->
   <description><![CDATA[
