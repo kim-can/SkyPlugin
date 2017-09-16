@@ -111,10 +111,7 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 	}
 
 	private void makeClassImplementParcelable(PsiElementFactory elementFactory) {
-
-
 		final String implementsType = "jc.sky.core.SKYBiz";
-
 		PsiJavaCodeReferenceElement implementsReference = elementFactory.createReferenceFromText(implementsType, mClass);
 		mClass.getExtendsList().add(implementsReference);
 	}

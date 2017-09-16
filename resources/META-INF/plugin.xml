@@ -1,13 +1,13 @@
 <idea-plugin version="2">
-  <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
+    <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
 
-  <name>sky plugin</name><!--插件名称-->
-  <version>1.3</version>
+    <name>sky plugin</name><!--插件名称-->
+    <version>1.3</version>
 
-  <idea-version since-build="123.72"/>
+    <idea-version since-build="123.72"/>
 
-  <!-- 描述-->
-  <description><![CDATA[
+    <!-- 描述-->
+    <description><![CDATA[
   让开发变得轻松，简单，好维护...<br><br>
 
   架构地址 : <a href="https://github.com/skyJinc/sky">https://github.com/skyJinc/sky</a> <br><br>
@@ -16,29 +16,40 @@
     ]]></description>
 
 
-  <!-- 版本更新信息-->
-  <change-notes><![CDATA[
+    <!-- 版本更新信息-->
+    <change-notes><![CDATA[
   <br>1.0 (2017-06-12)
   <br>- 快速给方法设置background和repeat,自动继承skyBiz
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
+    <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
 
-  <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-  <!--扩展组件注册 要是用到applicationConfigurable即项目配置等就在这里注册-->
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-  </extensions>
+    <!--扩展组件注册 要是用到applicationConfigurable即项目配置等就在这里注册-->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
 
-  <!--Action注册，比如在某个菜单下增加一个按钮就要在这注册 -->
-  <actions>
-    <!-- Add your actions here -->
-    <action id="AddSkyAction" class="com.jincanshen.android.skyplugin.SkyAction" text="Sky" description="sky plugin">
-      <add-to-group group-id="GenerateGroup" anchor="first"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
-    </action>
-  </actions>
+    <!--Action注册，比如在某个菜单下增加一个按钮就要在这注册 -->
+    <actions>
+        <!-- Add your actions here -->
+        <action id="AddSkyAction" class="com.jincanshen.android.skyplugin.SkyAction" text="Sky" description="sky plugin"
+                icon="/icons/sky.png">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+
+            <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
+        </action>
+
+        <!-- Add your actions here -->
+        <action id="CreateSkyAction" class="com.jincanshen.android.skyplugin.SkyFileAction" text="Sky Create File"
+                description="create sky file plugin"
+                icon="/icons/sky.png">
+            <add-to-group group-id="NewGroup" relative-to-action="OpenElementInNewWindow" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
+        </action>
+
+    </actions>
 
 </idea-plugin>

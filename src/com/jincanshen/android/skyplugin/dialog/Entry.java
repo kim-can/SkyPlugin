@@ -1,5 +1,6 @@
 package com.jincanshen.android.skyplugin.dialog;
 
+import com.intellij.openapi.ui.ComboBox;
 import com.jincanshen.android.skyplugin.dialog.interfaces.OnCheckBoxStateChangedListener;
 import com.jincanshen.android.skyplugin.model.SkyElement;
 
@@ -27,7 +28,7 @@ public class Entry extends JPanel {
 
 	protected JCheckBox							mRepeat;
 
-	protected JComboBox							mBackground;
+	protected ComboBox							mBackground;
 
 	protected JTextField						mName;
 
@@ -59,7 +60,7 @@ public class Entry extends JPanel {
 		mRepeat.addChangeListener(new RepeatListener());
 
 		String[] s = { "", "HTTP", "SINGLEWORK", "WORK" };
-		mBackground = new JComboBox(s);
+		mBackground = new ComboBox(s);
 
 		if (element.isAddBackground && element.background != null) {
 			if (element.background.indexOf(s[1]) != -1) {
@@ -160,9 +161,9 @@ public class Entry extends JPanel {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				String value = (String) e.getItem();
 				if (value == null || value.length() < 1) {
-					mElement.background ="";
+					mElement.background = "";
 					mElement.isAddBackground = false;
-				}else{
+				} else {
 					mElement.background = "sky.Background(sky.BackgroundType." + value + ")";
 					mElement.isAddBackground = true;
 				}
