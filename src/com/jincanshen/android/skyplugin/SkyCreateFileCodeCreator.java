@@ -62,6 +62,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				if (!viewName.endsWith("DialogFragment")) {
 					viewName = viewName + "DialogFragment";
 				}
+
 				view = generateView(viewName, bizName, "jc.sky.view.SKYDialogFragment");
 				break;
 		}
@@ -94,6 +95,13 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				"\n    @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {\n" + "        //initialSKYBuilder.layoutId();\n" + "        return initialSKYBuilder;\n" + "    }\n");
 		// ADD method
 		contentText.append("\n    @Override protected void initData(Bundle savedInstanceState) {\n" + "    } \n");
+
+		if(superName.endsWith("SKYDialogFragment")){
+			// ADD method
+			contentText.append("\n    @Override protected int getSKYStyle() {\n" +
+					"        return 0;\n" +
+					"    }\n");
+		}
 
 		contentText.append("}");
 		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString(), JavaFileType.INSTANCE, contentText.toString());
