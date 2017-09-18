@@ -25,7 +25,7 @@ public class SkyFileAction extends AnAction {
 
 		SkyCreateDialog dialog = new SkyCreateDialog(project,selected);
 
-		dialog.setSize(300, 130);
+		dialog.setSize(300, 200);
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 		dialog.requestFocus();
