@@ -1,0 +1,21 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+${IMPORT}
+/**
+ * @author ${USER}
+ * @date Created on ${YEAR}-${MONTH}-${DAY} ${TIME}
+ * @version 1.0
+ * @Description ${NAME} - 描述
+ */
+public class ${NAME} extends ${SUPPORT} {
+
+    ${METHOD_INTENT}
+
+    @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+        initialSKYBuilder.layoutId(R.layout.${LAYOUT});
+        return initialSKYBuilder;
+    }
+    @Override protected void initData(Bundle savedInstanceState) {
+        }
+    ${METHOD_DIALOG}
+}

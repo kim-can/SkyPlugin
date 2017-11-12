@@ -62,6 +62,10 @@
     <!--扩展组件注册 要是用到applicationConfigurable即项目配置等就在这里注册-->
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <internalFileTemplate name="SkyViewTemplate"/>
+        <internalFileTemplate name="SkyBizTemplate"/>
+        <internalFileTemplate name="SkyAdapterTemplate"/>
+        <internalFileTemplate name="SkyAdapterMoreTemplate"/>
     </extensions>
 
 </idea-plugin>

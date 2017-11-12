@@ -1,0 +1,42 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import jc.sky.view.SKYActivity;
+import jc.sky.view.adapter.recycleview.SKYHolder;
+import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+
+/**
+ * @author ${USER}
+ * @date Created on ${YEAR}-${MONTH}-${DAY} ${TIME}
+ * @version 1.0
+ * @Description ${NAME} - 描述
+ */
+public class ${NAME} extends SKYRVAdapter<${NAME}.Model, ${NAME}.ItemHolder> {
+
+    public ${NAME}(SKYActivity SKYActivity) {
+        super(SKYActivity);
+    }
+
+    @Override public ItemHolder newViewHolder(ViewGroup viewGroup, int type) {
+        // 修改布局文件
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.${LAYOUT}, viewGroup, false);
+        ItemHolder itemHolder = new ItemHolder(view);
+        return itemHolder;
+    }
+
+    public class ItemHolder extends SKYHolder<Model> {
+
+        public ItemHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override public void bindData(Model model, int position) {
+
+        }
+    }
+
+    public static class Model {}
+}
