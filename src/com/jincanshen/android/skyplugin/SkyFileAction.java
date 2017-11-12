@@ -1,15 +1,12 @@
 package com.jincanshen.android.skyplugin;
 
 import com.intellij.ide.IdeView;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.file.PsiPackageBase;
-import com.intellij.psi.util.PsiUtilBase;
+import com.intellij.psi.PsiDirectory;
 
 public class SkyFileAction extends AnAction {
 	@Override public void actionPerformed(AnActionEvent event) {

@@ -2,9 +2,9 @@
     <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
 
     <name>sky plugin</name><!--插件名称-->
-    <version>1.0.2</version>
-
-    <idea-version since-build="123.72"/>
+    <version>1.0.3</version>
+    <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
+    <idea-version since-build="107.121"/>
 
     <!-- 描述-->
     <description><![CDATA[
@@ -18,22 +18,30 @@
 
     <!-- 版本更新信息-->
     <change-notes><![CDATA[
-  <br>1.0 (2017-06-12)
+  <br>1.0.3 (2017-11-12)
+  <br>- 快速创建view,biz,adapter的同时 创建布局文件
+  <br>- json快速转换model - 集成自 gsonformat 插件
+  <br>1.0.2 (2017-09-10)
+  <br>- adapter支持多布局
+  <br>1.0.1 (2017-09-10)
+  <br>- 快速创建view,biz,adapter
+  <br>1.0.0 (2017-06-12)
   <br>- 快速给方法设置background和repeat,自动继承skyBiz
     ]]>
     </change-notes>
 
-    <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
-
-    <depends>com.intellij.modules.lang</depends>
-
-    <!--扩展组件注册 要是用到applicationConfigurable即项目配置等就在这里注册-->
-    <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
-    </extensions>
 
     <!--Action注册，比如在某个菜单下增加一个按钮就要在这注册 -->
     <actions>
+
+        <!-- Add your actions here -->
+        <action id="SkyGson" class="com.jincanshen.android.skygson.SkyGsonAction" text="SkyGson"
+                description="create sky gson model"
+                icon="/icons/sky.png">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
+        </action>
+
         <!-- Add your actions here -->
         <action id="AddSkyAction" class="com.jincanshen.android.skyplugin.SkyAction" text="Sky" description="sky plugin"
                 icon="/icons/sky.png">
@@ -51,5 +59,9 @@
         </action>
 
     </actions>
+    <!--扩展组件注册 要是用到applicationConfigurable即项目配置等就在这里注册-->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
 
 </idea-plugin>
