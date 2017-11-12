@@ -4,6 +4,7 @@ import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.ide.fileTemplates.FileTemplateUtil;
+import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
@@ -11,6 +12,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
+import com.intellij.psi.impl.source.PsiJavaFileImpl;
 import com.jincanshen.android.skygson.common.PsiClassUtil;
 import com.oracle.tools.packager.Log;
 
@@ -113,8 +115,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		styleManager.shortenClassReferences(view);
 		styleManager.optimizeImports(view);
 
-		// new ReformatCodeProcessor(mProject, new PsiFile[] { view, biz, xml },
-		// null, false).runWithoutProgress();
+//		new ReformatCodeProcessor(mProject, new PsiFile[] { view, biz }, null, false).runWithoutProgress();
 	}
 
 	private void runAdapter(String className) throws IOException {
@@ -156,8 +157,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
 		styleManager.shortenClassReferences(view);
 		styleManager.optimizeImports(view.getContainingFile());
-		// new ReformatCodeProcessor(mProject, new PsiFile[] { view, xml,
-		// xmlMore }, null, false).runWithoutProgress();
+//		new ReformatCodeProcessor(mProject, new PsiFile[] { view }, null, false).runWithoutProgress();
 	}
 
 	private PsiFile generateAdapterMore(String viewName, String xmlTopName, String xmlBottomName) throws IOException {
@@ -170,7 +170,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		properties.setProperty("LAYOUT1", xmlTopName);
 		properties.setProperty("LAYOUT2", xmlBottomName);
 
-		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", XmlFileType.INSTANCE, template.getText(properties));
+		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
 
 		return psiClass;
@@ -185,7 +185,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		properties.setProperty("NAME", fileName.toString());
 		properties.setProperty("LAYOUT", xmlName);
 
-		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", XmlFileType.INSTANCE, template.getText(properties));
+		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
 
 		return psiClass;
@@ -199,7 +199,6 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 			importText.append("import jc.sky.SKYHelper;\n");
 			importText.append("import jc.sky.display.SKYIDisplay;\n");
 		}
-		importText.append("inmport " + packageName + ".R;\n");
 		importText.append("import android.os.Bundle;\n").append("import ").append(superName).append(";\n").append("import jc.sky.view.SKYBuilder;\n");
 
 		StringBuilder methodText = new StringBuilder();
@@ -233,7 +232,9 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		properties.setProperty("LAYOUT", xmlName);
 		properties.setProperty("METHOD_DIALOG", methodDialogText.toString());
 
-		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", XmlFileType.INSTANCE, template.getText(properties));
+		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
+
+
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
 
 		return psiClass;
@@ -248,7 +249,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		properties.setProperty("NAME", fileName.toString());
 		properties.setProperty("SUPPORT", viewName);
 
-		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", XmlFileType.INSTANCE, template.getText(properties));
+		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
 
 		return psiClass;

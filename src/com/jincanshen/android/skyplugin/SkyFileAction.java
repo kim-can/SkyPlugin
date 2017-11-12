@@ -23,9 +23,7 @@ public class SkyFileAction extends AnAction {
 		if (selected == null) {
 			return;
 		}
-		PsiFile mFile = PsiUtilBase.getPsiFileInEditor(editor, project);
-
-		SkyCreateDialog dialog = new SkyCreateDialog(project,mFile,selected);
+		SkyCreateDialog dialog = new SkyCreateDialog(project,selected);
 
 		dialog.setSize(300, 200);
 		dialog.setLocationRelativeTo(null);

@@ -38,15 +38,13 @@ public class SkyCreateDialog extends JDialog {
 
 	private SkyCreateDialog() {}
 
-	public SkyCreateDialog(Project project, PsiFile mFile, PsiDirectory psiDirectory) {
+	public SkyCreateDialog(Project project, PsiDirectory psiDirectory) {
 		this.project = project;
 		this.psiDirectory = psiDirectory;
 
 		setContentPane(contentPane);
 		setModal(true);
 		getRootPane().setDefaultButton(buttonOK);
-
-		packageName = ((PsiJavaFileImpl) mFile).getPackageName();
 
 		buttonOK.addActionListener(new ActionListener() {
 
