@@ -2,6 +2,8 @@ package com.jincanshen.android.skyplugin;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.impl.source.PsiJavaFileImpl;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -32,15 +34,19 @@ public class SkyCreateDialog extends JDialog {
 
 	public int				selectType;
 
+	String					packageName;
+
 	private SkyCreateDialog() {}
 
-	public SkyCreateDialog(Project project, PsiDirectory psiDirectory) {
+	public SkyCreateDialog(Project project, PsiFile mFile, PsiDirectory psiDirectory) {
 		this.project = project;
 		this.psiDirectory = psiDirectory;
 
 		setContentPane(contentPane);
 		setModal(true);
 		getRootPane().setDefaultButton(buttonOK);
+
+		packageName = ((PsiJavaFileImpl) mFile).getPackageName();
 
 		buttonOK.addActionListener(new ActionListener() {
 
@@ -104,8 +110,7 @@ public class SkyCreateDialog extends JDialog {
 
 	private void onOK() {
 		dispose();
-		new SkyCreateFileCodeCreator(project, psiDirectory, selectType, textField1.getText(), comboBox1.getSelectedItem().toString(), comboBox1.getSelectedIndex(),
-				"sky create class").execute();
+		new SkyCreateFileCodeCreator(project, psiDirectory, selectType,packageName, textField1.getText(), comboBox1.getSelectedItem().toString(), comboBox1.getSelectedIndex(), "sky create class").execute();
 	}
 
 	private void onCancel() {

@@ -16,6 +16,7 @@ public class ${NAME} extends ${SUPPORT} {
         return initialSKYBuilder;
     }
     @Override protected void initData(Bundle savedInstanceState) {
-        }
+
+    }
     ${METHOD_DIALOG}
 }
