@@ -4,7 +4,6 @@
     <name>sky plugin</name><!--插件名称-->
     <version>1.0.3</version>
     <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
-    <idea-version since-build="107.121"/>
 
     <!-- 描述-->
     <description><![CDATA[
@@ -30,6 +29,9 @@
     ]]>
     </change-notes>
 
+    <idea-version since-build="123.72"/>
+
+    <depends>com.intellij.modules.lang</depends>
 
     <!--Action注册，比如在某个菜单下增加一个按钮就要在这注册 -->
     <actions>
