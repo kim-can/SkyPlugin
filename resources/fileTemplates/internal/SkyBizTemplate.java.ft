@@ -1,6 +1,6 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 
-import jc.sky.core.SKYBiz;
+import sky.core.SKYBiz;
 import android.os.Bundle;
 
 /**

@@ -104,14 +104,14 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 
 	private void generateParent() {
 		PsiClass skyBiz = JavaPsiFacade.getInstance(mProject).findClass(
-				"jc.sky.core.SKYBiz", new EverythingGlobalScope(mProject));
+				"sky.core.SKYBiz", new EverythingGlobalScope(mProject));
 		if (skyBiz != null && !mClass.isInheritor(skyBiz, true)) {
 			makeClassImplementParcelable(mFactory);
 		}
 	}
 
 	private void makeClassImplementParcelable(PsiElementFactory elementFactory) {
-		final String implementsType = "jc.sky.core.SKYBiz";
+		final String implementsType = "sky.core.SKYBiz";
 		PsiJavaCodeReferenceElement implementsReference = elementFactory.createReferenceFromText(implementsType, mClass);
 		mClass.getExtendsList().add(implementsReference);
 	}

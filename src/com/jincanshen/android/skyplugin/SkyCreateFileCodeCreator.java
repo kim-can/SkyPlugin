@@ -1,9 +1,7 @@
 package com.jincanshen.android.skyplugin;
 
-import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
-import com.intellij.ide.fileTemplates.FileTemplateUtil;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -12,8 +10,6 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.intellij.psi.impl.source.PsiJavaFileImpl;
-import com.jincanshen.android.skygson.common.PsiClassUtil;
 import com.oracle.tools.packager.Log;
 
 import java.io.IOException;
@@ -84,7 +80,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				xmlName = "activity_" + xmlName.toLowerCase();
 
 				xml = gennerateXml(xmlName);
-				view = generateView(viewName, xmlName, bizName, "jc.sky.view.SKYActivity");
+				view = generateView(viewName, xmlName, bizName, "sky.core.SKYActivity");
 				break;
 			case 1: // fragment
 				if (!viewName.endsWith("Fragment")) {
@@ -93,7 +89,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				xmlName = "fragment_" + xmlName.toLowerCase();
 
 				xml = gennerateXml(xmlName);
-				view = generateView(viewName, xmlName, bizName, "jc.sky.view.SKYFragment");
+				view = generateView(viewName, xmlName, bizName, "sky.core.SKYFragment");
 				break;
 			case 2: // dialog fragment
 				if (!viewName.endsWith("DialogFragment")) {
@@ -102,7 +98,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				xmlName = "dialogfragment_" + xmlName.toLowerCase();
 
 				xml = gennerateXml(xmlName);
-				view = generateView(viewName, xmlName, bizName, "jc.sky.view.SKYDialogFragment");
+				view = generateView(viewName, xmlName, bizName, "sky.core.SKYDialogFragment");
 				break;
 		}
 
@@ -196,10 +192,10 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
 		StringBuilder importText = new StringBuilder();
 		if (superName.endsWith("SKYActivity")) {
-			importText.append("import jc.sky.SKYHelper;\n");
-			importText.append("import jc.sky.display.SKYIDisplay;\n");
+			importText.append("import sky.core.SKYHelper;\n");
+			importText.append("import sky.core.SKYIDisplay;\n");
 		}
-		importText.append("import android.os.Bundle;\n").append("import ").append(superName).append(";\n").append("import jc.sky.view.SKYBuilder;\n");
+		importText.append("import android.os.Bundle;\n").append("import ").append(superName).append(";\n").append("import sky.core.SKYBuilder;\n");
 
 		StringBuilder methodText = new StringBuilder();
 

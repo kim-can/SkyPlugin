@@ -4,9 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import jc.sky.view.SKYActivity;
-import jc.sky.view.adapter.recycleview.SKYHolder;
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+import sky.core.SKYActivity;
+import sky.core.SKYHolder;
+import sky.core.SKYRVAdapter;
 
 /**
  * @author ${USER}
