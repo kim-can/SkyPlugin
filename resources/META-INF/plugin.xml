@@ -2,7 +2,7 @@
     <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
 
     <name>sky plugin</name><!--插件名称-->
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <vendor url="http://www.jincanshen.com" email="jincan213@gmal.com">sky</vendor>
 
     <!-- 描述-->
@@ -17,6 +17,8 @@
 
     <!-- 版本更新信息-->
     <change-notes><![CDATA[
+  <br>1.0.4 (2017-11-12)
+  <br>- sky架构 3.1.0 结构调整 伴随插件升级
   <br>1.0.3 (2017-11-12)
   <br>- 快速创建view,biz,adapter的同时 创建布局文件
   <br>- json快速转换model - 集成自 gsonformat 插件
