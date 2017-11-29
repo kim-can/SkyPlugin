@@ -5,7 +5,10 @@
 [下载地址](https://github.com/skyJinc/SkyPlugin/blob/master/SkyPlugin.jar)
 
 ### 版本说明
+- 1.0.4 (2017-11-29)
 
+    - sky架构 3.1.0 结构调整进行支持
+    
 - 1.0.3 (2017-11-12)
 
     - 快速创建view,biz,adapter的同时 创建布局文件
