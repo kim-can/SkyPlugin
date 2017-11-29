@@ -5,6 +5,7 @@ import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -20,21 +21,23 @@ import java.util.Properties;
  */
 public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
-	private Project				mProject;
+	private Project					mProject;
 
-	private PsiDirectory		psiDirectory;
+	private PsiDirectory			psiDirectory;
 
-	private String				packageName;
+	private String					packageName;
 
-	private String				className;
+	private String					className;
 
-	private String				extendsName;
+	private String					extendsName;
 
-	private int					selectType;
+	private int						selectType;
 
-	private int					extendsIndex;
+	private int						extendsIndex;
 
-	private PsiElementFactory	mFactory;
+	private PsiElementFactory		mFactory;
+
+	protected static final Logger	log	= Logger.getInstance(SkyCreateFileCodeCreator.class);
 
 	protected SkyCreateFileCodeCreator(Project project, PsiDirectory psiDirectory, int selectType, String packageName, String className, String extendsName, int extendsIndex, String command) {
 		super(project, command);
@@ -111,7 +114,8 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		styleManager.shortenClassReferences(view);
 		styleManager.optimizeImports(view);
 
-//		new ReformatCodeProcessor(mProject, new PsiFile[] { view, biz }, null, false).runWithoutProgress();
+		// new ReformatCodeProcessor(mProject, new PsiFile[] { view, biz }, null,
+		// false).runWithoutProgress();
 	}
 
 	private void runAdapter(String className) throws IOException {
@@ -153,7 +157,8 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
 		styleManager.shortenClassReferences(view);
 		styleManager.optimizeImports(view.getContainingFile());
-//		new ReformatCodeProcessor(mProject, new PsiFile[] { view }, null, false).runWithoutProgress();
+		// new ReformatCodeProcessor(mProject, new PsiFile[] { view }, null,
+		// false).runWithoutProgress();
 	}
 
 	private PsiFile generateAdapterMore(String viewName, String xmlTopName, String xmlBottomName) throws IOException {
@@ -230,7 +235,6 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
 		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
 
-
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
 
 		return psiClass;
@@ -258,22 +262,28 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
 		String contentText = defaultXMLContent();
 
-		String[] modulePaths = psiDirectory.getVirtualFile().toString().split("main/");
-		if (modulePaths == null || modulePaths.length < 2) {
-			Log.info("拆分文件时，main/ 没有匹配上");
-		}
-
-		String filePath = modulePaths[0] + "main/res/layout";
-
-		VirtualFile directory = LocalFileSystem.getInstance().findFileByPath(filePath.replace("file://", ""));
-
+		PsiDirectory directory = parentDirectory(psiDirectory);
 		if (directory == null) {
-			Log.info("dir is null " + filePath);
+			return null;
+		}
+		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString(), XmlFileType.INSTANCE, contentText);
+		PsiManager.getInstance(mProject).findDirectory(directory.getVirtualFile()).add(psiClass);
+		return psiClass;
+	}
+
+	private PsiDirectory parentDirectory(PsiDirectory psiDirectory) {
+		if (psiDirectory.getName().equals("main")) {
+			PsiDirectory directory = psiDirectory.findSubdirectory("res");
+			if (directory == null) {
+				return null;
+			}
+			return directory.findSubdirectory("layout");
+		}
+		if (psiDirectory.getName().equals(mProject.getName())) {
+			return null;
 		}
 
-		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString(), XmlFileType.INSTANCE, contentText);
-		PsiManager.getInstance(mProject).findDirectory(directory).add(psiClass);
-		return psiClass;
+		return parentDirectory(psiDirectory.getParentDirectory());
 	}
 
 	private String defaultXMLContent() {

@@ -2,6 +2,7 @@ package com.jincanshen.android.skyplugin;
 
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
@@ -28,9 +29,9 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 
 	protected PsiElementFactory		mFactory;
 
-	protected boolean mIsInheritor;
+	protected boolean				mIsInheritor;
 
-	public SkyCodeCreator(PsiFile file, PsiClass clazz, String command, ArrayList<SkyElement> elements,boolean isInheritor) {
+	public SkyCodeCreator(PsiFile file, PsiClass clazz, String command, ArrayList<SkyElement> elements, boolean isInheritor) {
 		super(clazz.getProject(), command);
 
 		mFile = file;
@@ -47,7 +48,7 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 			return; // Butterknife library is not available for project
 		}
 
-		if(mIsInheritor){
+		if (mIsInheritor) {
 			generateParent();
 		}
 
@@ -65,37 +66,37 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 	private void generateMethod() {
 		for (SkyElement skyElement : mElements) {
 			if (skyElement.isClick) {
-				//注解线程
+				// 注解线程
 				if (skyElement.background != null && skyElement.isAddBackground) {
 					PsiAnnotation background = skyElement.psiMethod.getModifierList().findAnnotation("sky.Background");
-					if(background != null){
+					if (background != null) {
 						background.delete();
 					}
 					skyElement.psiMethod.getModifierList().addAnnotation(skyElement.background);
-				}else {
+				} else {
 					PsiAnnotation background = skyElement.psiMethod.getModifierList().findAnnotation("sky.Background");
-					if(background != null){
+					if (background != null) {
 						background.delete();
 					}
 				}
-				//注解是否重复
+				// 注解是否重复
 				if (skyElement.repeat) {
 					PsiAnnotation psiAnnotation = skyElement.psiMethod.getModifierList().findAnnotation("sky.Repeat");
-					if(psiAnnotation != null){
+					if (psiAnnotation != null) {
 						psiAnnotation.delete();
 					}
 					skyElement.psiMethod.getModifierList().addAnnotation(skyElement.repeatS);
-				}else {
+				} else {
 					PsiAnnotation psiAnnotation = skyElement.psiMethod.getModifierList().findAnnotation("sky.Repeat");
-					if(psiAnnotation != null){
+					if (psiAnnotation != null) {
 						psiAnnotation.delete();
 					}
 				}
-				//名称
-				if(skyElement.methodName == null || skyElement.methodName.length() < 1){
+				// 名称
+				if (skyElement.methodName == null || skyElement.methodName.length() < 1) {
 					continue;
 				}
-				if(!skyElement.methodName.equals(skyElement.psiMethod.getName())){
+				if (!skyElement.methodName.equals(skyElement.psiMethod.getName())) {
 					skyElement.psiMethod.setName(skyElement.methodName);
 				}
 			}
@@ -103,8 +104,7 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 	}
 
 	private void generateParent() {
-		PsiClass skyBiz = JavaPsiFacade.getInstance(mProject).findClass(
-				"sky.core.SKYBiz", new EverythingGlobalScope(mProject));
+		PsiClass skyBiz = JavaPsiFacade.getInstance(mProject).findClass("sky.core.SKYBiz", new EverythingGlobalScope(mProject));
 		if (skyBiz != null && !mClass.isInheritor(skyBiz, true)) {
 			makeClassImplementParcelable(mFactory);
 		}
