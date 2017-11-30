@@ -7,11 +7,8 @@ import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.oracle.tools.packager.Log;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -272,7 +269,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 	}
 
 	private PsiDirectory parentDirectory(PsiDirectory psiDirectory) {
-		if (psiDirectory.getName().equals("main")) {
+		if (psiDirectory.getName().equals("main")&& psiDirectory.getParentDirectory().getName().equals("src")) {
 			PsiDirectory directory = psiDirectory.findSubdirectory("res");
 			if (directory == null) {
 				return null;

@@ -37,6 +37,13 @@
 
     <!--Action注册，比如在某个菜单下增加一个按钮就要在这注册 -->
     <actions>
+        <!-- Add your actions here -->
+        <action id="SkyButterknife" class="com.jincanshen.android.skybutterknife.InjectAction" text="SkyButterknife"
+                description="create sky find id and click"
+                icon="/icons/sky.png">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
+        </action>
 
         <!-- Add your actions here -->
         <action id="SkyGson" class="com.jincanshen.android.skygson.SkyGsonAction" text="SkyGson"

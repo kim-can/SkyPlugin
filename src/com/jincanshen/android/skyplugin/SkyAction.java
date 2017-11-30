@@ -112,7 +112,7 @@ public class SkyAction extends BaseGenerateAction implements IConfirmListener, I
 		if (Utils.getClickCount(elements) > 0) { // generate
 			new SkyCodeCreator(file,getTargetClass(editor,file),"Sky Change Method",elements,isInheritor).execute();
 		} else {
-			Utils.showInfoNotification(project, "No injection was selected");
+			Utils.showInfoNotification(project, "没有找到方法,请声明方法");
 		}
 
 	}
