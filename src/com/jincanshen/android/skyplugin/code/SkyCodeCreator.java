@@ -1,4 +1,4 @@
-package com.jincanshen.android.skyplugin;
+package com.jincanshen.android.skyplugin.code;
 
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -45,7 +45,7 @@ public class SkyCodeCreator extends WriteCommandAction.Simple {
 	@Override public void run() throws Throwable {
 		ISky iSky = SkyFactory.findSkyForPsiElement(mProject, mFile);
 		if (iSky == null) {
-			return; // Butterknife library is not available for project
+			return;
 		}
 
 		if (mIsInheritor) {

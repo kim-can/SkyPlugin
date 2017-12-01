@@ -1,4 +1,4 @@
-package com.jincanshen.android.skyplugin;
+package com.jincanshen.android.skyplugin.code;
 
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
@@ -36,7 +36,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
 	protected static final Logger	log	= Logger.getInstance(SkyCreateFileCodeCreator.class);
 
-	protected SkyCreateFileCodeCreator(Project project, PsiDirectory psiDirectory, int selectType, String packageName, String className, String extendsName, int extendsIndex, String command) {
+	public SkyCreateFileCodeCreator(Project project, PsiDirectory psiDirectory, int selectType, String packageName, String className, String extendsName, int extendsIndex, String command) {
 		super(project, command);
 		this.mProject = project;
 		this.psiDirectory = psiDirectory;

@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.search.EverythingGlobalScope;
-import com.intellij.psi.util.PsiClassUtil;
+import com.jincanshen.android.Config;
 import com.jincanshen.android.skybutterknife.butterknife.ButterKnifeFactory;
 import com.jincanshen.android.skybutterknife.butterknife.IButterKnife;
 import com.jincanshen.android.skybutterknife.common.Definitions;

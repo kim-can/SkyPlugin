@@ -1,5 +1,6 @@
 package com.jincanshen.android.skyplugin.common;
 
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
@@ -10,6 +11,7 @@ import com.intellij.psi.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.search.EverythingGlobalScope;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.util.PsiUtilBase;
 import com.jincanshen.android.skyplugin.model.SkyElement;
 import com.intellij.openapi.ui.MessageType;
 
@@ -40,6 +42,61 @@ public class Utils {
 		return null; // no Android SDK found
 	}
 
+	public static SkyElement getMethodFromClass(Project project, Editor editor, PsiClass targetClass) {
+		PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
+		int offset = editor.getCaretModel().getOffset();
+		PsiElement candidateA = file.findElementAt(offset);
+		PsiMethod[] psiMethods = targetClass.getMethods();
+
+		SkyElement skyElement = new SkyElement();
+		PsiMethod psiMethod = null;
+		for (PsiMethod item : psiMethods) {
+			if (candidateA.getText().equals(item.getName())) {
+				psiMethod = item;
+				break;
+			}
+		}
+		if (psiMethod == null) {
+			return null;
+		}
+		skyElement.psiMethod = psiMethod;
+		skyElement.methodName = psiMethod.getName();
+		PsiAnnotation background = psiMethod.getModifierList().findAnnotation("sky.Background");
+
+		if (background != null) {
+			StringBuilder backgroundS = new StringBuilder(background.getQualifiedName());
+			if (background.getParameterList().getAttributes().length > 0) {
+				PsiAnnotationMemberValue psiAnnotationMemberValue = background.getParameterList().getAttributes()[0].getValue();
+				backgroundS.append("(");
+				backgroundS.append(psiAnnotationMemberValue.getText());
+				backgroundS.append(")");
+			}
+			skyElement.background = backgroundS.toString();
+			skyElement.isAddBackground = true;
+			skyElement.isClick = false;
+		} else {
+			skyElement.isAddBackground = false;
+			skyElement.isClick = true;
+		}
+
+		PsiAnnotation psiAnnotation = psiMethod.getModifierList().findAnnotation("sky.Repeat");
+		if (psiAnnotation != null) {
+			StringBuilder repeatS = new StringBuilder(psiAnnotation.getQualifiedName());
+			if (psiAnnotation.getParameterList().getAttributes().length > 0) {
+				PsiAnnotationMemberValue psiAnnotationMemberValue = psiAnnotation.getParameterList().getAttributes()[0].getValue();
+				repeatS.append("(");
+				repeatS.append(psiAnnotationMemberValue.getText());
+				repeatS.append("(");
+			}
+			skyElement.repeatS = repeatS.toString();
+			skyElement.repeat = true;
+		} else {
+			skyElement.repeat = false;
+		}
+
+		return skyElement;
+	}
+
 	public static ArrayList<SkyElement> getMethodFromClass(PsiClass targetClass) {
 		final ArrayList<SkyElement> elements = new ArrayList<>();
 
@@ -65,7 +122,7 @@ public class Utils {
 			skyElement.methodName = psiMethod.getName();
 			if (background != null) {
 				StringBuilder backgroundS = new StringBuilder(background.getQualifiedName());
-				if(background.getParameterList().getAttributes().length >0){
+				if (background.getParameterList().getAttributes().length > 0) {
 					PsiAnnotationMemberValue psiAnnotationMemberValue = background.getParameterList().getAttributes()[0].getValue();
 					backgroundS.append("(");
 					backgroundS.append(psiAnnotationMemberValue.getText());
@@ -73,15 +130,15 @@ public class Utils {
 				}
 				skyElement.background = backgroundS.toString();
 				skyElement.isAddBackground = true;
-				skyElement.isClick =false;
-			}else {
+				skyElement.isClick = false;
+			} else {
 				skyElement.isAddBackground = false;
-				skyElement.isClick =true;
+				skyElement.isClick = true;
 			}
 			PsiAnnotation psiAnnotation = psiMethod.getModifierList().findAnnotation("sky.Repeat");
 			if (psiAnnotation != null) {
 				StringBuilder repeatS = new StringBuilder(psiAnnotation.getQualifiedName());
-				if(psiAnnotation.getParameterList().getAttributes().length >0) {
+				if (psiAnnotation.getParameterList().getAttributes().length > 0) {
 					PsiAnnotationMemberValue psiAnnotationMemberValue = psiAnnotation.getParameterList().getAttributes()[0].getValue();
 					repeatS.append("(");
 					repeatS.append(psiAnnotationMemberValue.getText());
@@ -89,11 +146,9 @@ public class Utils {
 				}
 				skyElement.repeatS = repeatS.toString();
 				skyElement.repeat = true;
-			}else {
+			} else {
 				skyElement.repeat = false;
 			}
-
-
 
 			elements.add(skyElement);
 		}

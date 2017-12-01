@@ -3,7 +3,7 @@ package com.jincanshen.android.skybutterknife.form;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBScrollPane;
-import com.jincanshen.android.skybutterknife.Config;
+import com.jincanshen.android.Config;
 import com.jincanshen.android.skybutterknife.iface.ICancelListener;
 import com.jincanshen.android.skybutterknife.iface.IConfirmListener;
 import com.jincanshen.android.skybutterknife.iface.OnCheckBoxStateChangedListener;

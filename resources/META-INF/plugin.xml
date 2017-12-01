@@ -60,7 +60,13 @@
 
             <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
         </action>
+        <!-- Add your actions here -->
+        <action id="AddSkyFastAction" class="com.jincanshen.android.skyplugin.SkyFastAction" text="Sky BackGround" description="sky plugin"
+                icon="/icons/sky.png">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
 
+            <keyboard-shortcut keymap="$default" first-keystroke="shift control B"/>
+        </action>
         <!-- Add your actions here -->
         <action id="CreateSkyAction" class="com.jincanshen.android.skyplugin.SkyFileAction" text="Sky Create File"
                 description="create sky file plugin"

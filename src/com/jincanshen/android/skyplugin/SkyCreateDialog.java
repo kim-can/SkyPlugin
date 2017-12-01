@@ -2,13 +2,10 @@ package com.jincanshen.android.skyplugin;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.PsiJavaFileImpl;
+import com.jincanshen.android.skyplugin.code.SkyCreateFileCodeCreator;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SkyCreateDialog extends JDialog {
 

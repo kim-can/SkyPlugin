@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.util.PsiUtilBase;
+import com.jincanshen.android.skyplugin.code.SkyCodeCreator;
 import com.jincanshen.android.skyplugin.common.Utils;
 import com.jincanshen.android.skyplugin.dialog.EntryList;
 import com.jincanshen.android.skyplugin.dialog.interfaces.ICancelListener;
