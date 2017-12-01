@@ -42,6 +42,7 @@ public class SkyFastAction extends BaseGenerateAction {
 		ISky iSky = SkyFactory.findSkyForPsiElement(project, file);
 		int offset = editor.getCaretModel().getOffset();
 		PsiElement candidateA = file.findElementAt(offset);
+		PsiElement candidateB = file.findElementAt(offset - 1);
 
 		PsiClass targetClass = getTargetClass(editor, file);
 		PsiMethod[] psiMethods = targetClass.getMethods();
@@ -49,6 +50,10 @@ public class SkyFastAction extends BaseGenerateAction {
 		boolean isMethod = false;
 		for (PsiMethod psiMethod : psiMethods) {
 			if (candidateA.getText().equals(psiMethod.getName())) {
+				isMethod = true;
+				break;
+			}
+			if (candidateB.getText().equals(psiMethod.getName())) {
 				isMethod = true;
 				break;
 			}

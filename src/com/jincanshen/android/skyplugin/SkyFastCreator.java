@@ -61,8 +61,19 @@ public class SkyFastCreator extends JDialog {
 		this.mSkyElement = skyElement;
 		this.project = project;
 		this.editor = editor;
+		String name;
+		if (mSkyElement.methodName.length() > 5) {
+			name = mSkyElement.methodName.substring(0, 5) + "...";
+		} else {
+			int count = 5 - mSkyElement.methodName.length();
+			String kg = "";
+			for (int i = 0; i < count; i++) {
+				kg += " ";
+			}
+			name = mSkyElement.methodName + kg;
+		}
 
-		label_mothed.setText(mSkyElement.methodName.substring(0,5)+"...");
+		label_mothed.setText(name);
 
 		repeatCheckBox.setSelected(mSkyElement.repeat);
 

@@ -46,12 +46,18 @@ public class Utils {
 		PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
 		int offset = editor.getCaretModel().getOffset();
 		PsiElement candidateA = file.findElementAt(offset);
+		PsiElement candidateB = file.findElementAt(offset - 1);
+
 		PsiMethod[] psiMethods = targetClass.getMethods();
 
 		SkyElement skyElement = new SkyElement();
 		PsiMethod psiMethod = null;
 		for (PsiMethod item : psiMethods) {
 			if (candidateA.getText().equals(item.getName())) {
+				psiMethod = item;
+				break;
+			}
+			if (candidateB.getText().equals(item.getName())) {
 				psiMethod = item;
 				break;
 			}
