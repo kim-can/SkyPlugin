@@ -39,27 +39,31 @@ public class SkyFastAction extends BaseGenerateAction {
 	}
 
 	@Override public boolean isValidForFile(Project project, Editor editor, PsiFile file) {
-		ISky iSky = SkyFactory.findSkyForPsiElement(project, file);
-		int offset = editor.getCaretModel().getOffset();
-		PsiElement candidateA = file.findElementAt(offset);
-		PsiElement candidateB = file.findElementAt(offset - 1);
+		try {
+			ISky iSky = SkyFactory.findSkyForPsiElement(project, file);
+			int offset = editor.getCaretModel().getOffset();
+			PsiElement candidateA = file.findElementAt(offset);
+			PsiElement candidateB = file.findElementAt(offset - 1);
 
-		PsiClass targetClass = getTargetClass(editor, file);
-		PsiMethod[] psiMethods = targetClass.getMethods();
+			PsiClass targetClass = getTargetClass(editor, file);
+			PsiMethod[] psiMethods = targetClass.getMethods();
 
-		boolean isMethod = false;
-		for (PsiMethod psiMethod : psiMethods) {
-			if (candidateA.getText().equals(psiMethod.getName())) {
-				isMethod = true;
-				break;
+			boolean isMethod = false;
+			for (PsiMethod psiMethod : psiMethods) {
+				if (candidateA.getText().equals(psiMethod.getName())) {
+					isMethod = true;
+					break;
+				}
+				if (candidateB.getText().equals(psiMethod.getName())) {
+					isMethod = true;
+					break;
+				}
 			}
-			if (candidateB.getText().equals(psiMethod.getName())) {
-				isMethod = true;
-				break;
-			}
+
+			return (iSky != null && super.isValidForFile(project, editor, file) && isMethod);
+		}catch (Exception e){
+			return false;
 		}
-
-		return (iSky != null && super.isValidForFile(project, editor, file) && isMethod);
 	}
 
 	@Override public void actionPerformed(AnActionEvent event) {
@@ -71,12 +75,18 @@ public class SkyFastAction extends BaseGenerateAction {
 
 	@Override public void actionPerformedImpl(Project project, Editor editor) {
 		PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
-		SkyElement skyElement = Utils.getMethodFromClass(project, editor, getTargetClass(editor, file));
+		if(file == null){
+			return;
+		}
+		try {
+			SkyElement skyElement = Utils.getMethodFromClass(project, editor, getTargetClass(editor, file));
 
-		if (skyElement != null) {
-			showDialog(project, editor, file, skyElement);
-		} else {
-			Utils.showErrorNotification(project, "没有找到方法~~~");
+			if (skyElement != null) {
+				showDialog(project, editor, file, skyElement);
+			} else {
+				Utils.showErrorNotification(project, "没有找到方法~~~");
+			}
+		}catch (Exception e){
 		}
 	}
 

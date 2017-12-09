@@ -58,11 +58,17 @@ public class SkyAction extends BaseGenerateAction implements IConfirmListener, I
 
 	@Override public void actionPerformedImpl(Project project, Editor editor) {
 		PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
-		ArrayList<SkyElement> elements = Utils.getMethodFromClass(getTargetClass(editor, file));
-		if (!elements.isEmpty()) {
-			showDialog(project, editor, elements);
-		} else {
-			Utils.showErrorNotification(project, "没有找到方法~~~");
+		if (file == null) {
+			return;
+		}
+		try {
+			ArrayList<SkyElement> elements = Utils.getMethodFromClass(getTargetClass(editor, file));
+			if (!elements.isEmpty()) {
+				showDialog(project, editor, elements);
+			} else {
+				Utils.showErrorNotification(project, "没有找到方法~~~");
+			}
+		} catch (Exception e) {
 		}
 	}
 
@@ -111,7 +117,7 @@ public class SkyAction extends BaseGenerateAction implements IConfirmListener, I
 		}
 		closeDialog();
 		if (Utils.getClickCount(elements) > 0) { // generate
-			new SkyCodeCreator(file,getTargetClass(editor,file),"Sky Change Method",elements,isInheritor).execute();
+			new SkyCodeCreator(file, getTargetClass(editor, file), "Sky Change Method", elements, isInheritor).execute();
 		} else {
 			Utils.showInfoNotification(project, "没有找到方法,请声明方法");
 		}
