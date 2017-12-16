@@ -79,7 +79,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "activity_" + xmlName.toLowerCase();
 
-				xml = gennerateXml(xmlName);
+				gennerateXml(xmlName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYActivity");
 				break;
 			case 1: // fragment
@@ -88,7 +88,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "fragment_" + xmlName.toLowerCase();
 
-				xml = gennerateXml(xmlName);
+				gennerateXml(xmlName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYFragment");
 				break;
 			case 2: // dialog fragment
@@ -97,7 +97,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "dialogfragment_" + xmlName.toLowerCase();
 
-				xml = gennerateXml(xmlName);
+				gennerateXml(xmlName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYDialogFragment");
 				break;
 		}
@@ -264,12 +264,17 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 			return null;
 		}
 		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString(), XmlFileType.INSTANCE, contentText);
-		PsiManager.getInstance(mProject).findDirectory(directory.getVirtualFile()).add(psiClass);
+		PsiDirectory psiDirectory = PsiManager.getInstance(mProject).findDirectory(directory.getVirtualFile());
+		PsiFile findFile = psiDirectory.findFile(fileName.toString());
+		if (findFile != null) {
+			return null;
+		}
+		psiDirectory.add(psiClass);
 		return psiClass;
 	}
 
 	private PsiDirectory parentDirectory(PsiDirectory psiDirectory) {
-		if (psiDirectory.getName().equals("main")&& psiDirectory.getParentDirectory().getName().equals("src")) {
+		if (psiDirectory.getName().equals("main") && psiDirectory.getParentDirectory().getName().equals("src")) {
 			PsiDirectory directory = psiDirectory.findSubdirectory("res");
 			if (directory == null) {
 				return null;
