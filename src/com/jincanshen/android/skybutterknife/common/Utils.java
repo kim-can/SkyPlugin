@@ -78,10 +78,10 @@ public class Utils {
      * @return
      */
     public static PsiFile findLayoutResource(PsiElement element) {
-        log.info("Finding layout resource for element: " + element.getText());
         if (element == null) {
             return null; // nothing to be used
         }
+        log.info("Finding layout resource for element: " + element.getText());
         if (!(element instanceof PsiIdentifier)) {
             return null; // nothing to be used
         }
