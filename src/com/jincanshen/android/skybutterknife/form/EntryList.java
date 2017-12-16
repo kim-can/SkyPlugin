@@ -162,7 +162,8 @@ public class EntryList extends JPanel {
 
 		mModuleCheck = new JCheckBox();
 		mModuleCheck.setPreferredSize(new Dimension(32, 26));
-		mModuleCheck.setSelected(Config.getInstant().isModule());
+		mModulesHolder = Config.getInstant().isModule();
+		mModuleCheck.setSelected(mModulesHolder);
 		mModuleCheck.addChangeListener(new CheckModuleListener());
 
 		mModuleLabel = new JLabel();
@@ -178,7 +179,8 @@ public class EntryList extends JPanel {
 
 		mHolderCheck = new JCheckBox();
 		mHolderCheck.setPreferredSize(new Dimension(32, 26));
-		mHolderCheck.setSelected(Config.getInstant().isCreateHolder());
+		mCreateHolder = Config.getInstant().isCreateHolder();
+		mHolderCheck.setSelected(mCreateHolder);
 		mHolderCheck.addChangeListener(new CheckHolderListener());
 
 		mHolderLabel = new JLabel();
@@ -227,6 +229,9 @@ public class EntryList extends JPanel {
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		buttonPanel.add(mConfirm);
 
+		//状态
+		changeModule();
+
 		add(buttonPanel, BorderLayout.PAGE_END);
 		refresh();
 	}
@@ -267,6 +272,7 @@ public class EntryList extends JPanel {
 
 		@Override public void stateChanged(ChangeEvent event) {
             mModulesHolder = mModuleCheck.isSelected();
+			changeModule();
 		}
 	}
 
@@ -306,6 +312,15 @@ public class EntryList extends JPanel {
 			if (mCancelListener != null) {
 				mCancelListener.onCancel();
 			}
+		}
+	}
+
+	private void changeModule(){
+		if(mModulesHolder){
+			msplitOnclickMethodsCheck.setSelected(true);
+			msplitOnclickMethodsCheck.setEnabled(false);
+		}else {
+			msplitOnclickMethodsCheck.setEnabled(true);
 		}
 	}
 }

@@ -36,12 +36,10 @@ public class ${NAME} extends SKYRVAdapter<${NAME}.Model, SKYHolder> {
         SKYHolder skyHolder = null;
         switch (type) {
             case TYPE_ONE:
-                // 修改布局文件
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.${LAYOUT1}, viewGroup, false);
                 skyHolder = new TopHolder(view);
                 break;
             case TYPE_TWO:
-                // 修改布局文件
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.${LAYOUT2}, viewGroup, false);
                 skyHolder = new BottomHolder(view);
                 break;

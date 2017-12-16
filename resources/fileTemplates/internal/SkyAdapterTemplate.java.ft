@@ -21,7 +21,6 @@ public class ${NAME} extends SKYRVAdapter<${NAME}.Model, ${NAME}.ItemHolder> {
     }
 
     @Override public ItemHolder newViewHolder(ViewGroup viewGroup, int type) {
-        // 修改布局文件
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.${LAYOUT}, viewGroup, false);
         ItemHolder itemHolder = new ItemHolder(view);
         return itemHolder;
