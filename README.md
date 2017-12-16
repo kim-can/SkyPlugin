@@ -5,6 +5,10 @@
 [下载地址](https://github.com/skyJinc/SkyPlugin/blob/master/SkyPlugin.jar)
 
 ### 版本说明
+- 1.0.5 (2017-12-16)
+
+    - fix bug
+    
 - 1.0.4 (2017-11-29)
 
     - sky架构 3.1.0 结构调整 伴随插件升级
