@@ -2,7 +2,7 @@
     <id>com.jincnashen.sky.plugin.id</id> <!--插件ID，自定义，如果要上传到Plugins仓库不能有重复ID -->
 
     <name>sky plugin</name><!--插件名称-->
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <vendor url="https://github.com/skyJinc/SkyPlugin" email="jincan0213@hotmail.com">skyJC</vendor>
 
     <!-- 描述-->
@@ -18,6 +18,10 @@
     <!-- 版本更新信息-->
     <change-notes><![CDATA[
 <html>
+<b>1.0.5</b> (11/12/2017)
+  <ul>
+    <li>fix bug</li>
+  </ul>
   <b>1.0.4</b> (11/12/2017)
   <ul>
     <li>sky架构 3.1.0 结构调整 伴随插件升级 - Sky 3.1.0 structural adjustment with plug-in upgrade </li>

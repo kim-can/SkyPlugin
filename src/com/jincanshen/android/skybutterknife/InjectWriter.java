@@ -140,6 +140,14 @@ public class InjectWriter extends WriteCommandAction.Simple {
      * Create ViewHolder for adapters with injections
      */
     protected void generateAdapter(@NotNull IButterKnife butterKnife) {
+        //添加夫类
+        PsiClass supper =  JavaPsiFacade.getInstance(mProject).findClass(
+                "sky.core.SKYHolder", new EverythingGlobalScope(mProject));
+
+        if(supper == null){
+            Utils.showErrorNotification(mProject, "请更新sky架构3.1.0以上的版本~");
+            return;
+        }
         // view holder class
         StringBuilder holderBuilder = new StringBuilder();
         holderBuilder.append("public ");
@@ -156,9 +164,8 @@ public class InjectWriter extends WriteCommandAction.Simple {
         viewHolder.setName(Utils.getViewHolderClassName());
         viewHolder.getModifierList().setModifierProperty(PsiModifier.PUBLIC,true);
         viewHolder.getModifierList().setModifierProperty(PsiModifier.STATIC,true);
-        //添加夫类
-        PsiClass supper =  JavaPsiFacade.getInstance(mProject).findClass(
-                "sky.core.SKYHolder", new EverythingGlobalScope(mProject));
+
+
         final PsiElementFactory elementFactory = JavaPsiFacade.getInstance(mProject).getElementFactory();
         PsiJavaCodeReferenceElement ref = elementFactory.createClassReferenceElement(supper);
 
