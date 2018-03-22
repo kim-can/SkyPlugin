@@ -2,7 +2,7 @@
 
 ### 插件下载地址
 
-[下载地址](https://github.com/skyJinc/SkyPlugin/SkyPlugin.zip)
+[下载地址](https://github.com/skyJinc/SkyPlugin/blob/master/SkyPlugin.zip)
 
 ### 版本说明
 - 1.0.5 (2017-12-16)
