@@ -5,6 +5,11 @@
 [下载地址](https://raw.githubusercontent.com/skyJinc/SkyPlugin/master/SkyPlugin.zip)
 
 ### 版本说明
+- 1.0.6 (2017-12-16)
+
+    - xml add tools:context
+    - activity自动注册manifest - activity automatic logon manifest.xml
+    
 - 1.0.5 (2017-12-16)
 
     - fix bug
