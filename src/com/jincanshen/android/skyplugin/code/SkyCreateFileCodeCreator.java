@@ -4,12 +4,18 @@ import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.highlighter.XmlFileType;
+import com.intellij.lang.StdLanguages;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
+import com.intellij.psi.xml.XmlFile;
+import com.intellij.psi.xml.XmlTag;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -36,16 +42,18 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 
 	protected static final Logger	log	= Logger.getInstance(SkyCreateFileCodeCreator.class);
 
-	public SkyCreateFileCodeCreator(Project project, PsiDirectory psiDirectory, int selectType, String packageName, String className, String extendsName, int extendsIndex, String command) {
+	public SkyCreateFileCodeCreator(Project project, PsiDirectory psiDirectory, int selectType, String className, String extendsName, int extendsIndex, String command) {
 		super(project, command);
 		this.mProject = project;
 		this.psiDirectory = psiDirectory;
-		this.packageName = packageName;
 		this.className = className;
 		this.extendsName = extendsName;
 		this.extendsIndex = extendsIndex;
 		this.selectType = selectType;
 		this.mFactory = JavaPsiFacade.getElementFactory(mProject);
+
+		PsiPackage psiPackage =  JavaDirectoryService.getInstance().getPackage(psiDirectory);
+		this.packageName = psiPackage.getQualifiedName();
 	}
 
 	@Override public void run() throws Throwable {
@@ -79,7 +87,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "activity_" + xmlName.toLowerCase();
 
-				gennerateXml(xmlName);
+				gennerateXml(xmlName,packageName + "." + viewName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYActivity");
 				break;
 			case 1: // fragment
@@ -88,7 +96,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "fragment_" + xmlName.toLowerCase();
 
-				gennerateXml(xmlName);
+				gennerateXml(xmlName,packageName + "." + viewName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYFragment");
 				break;
 			case 2: // dialog fragment
@@ -97,7 +105,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "dialogfragment_" + xmlName.toLowerCase();
 
-				gennerateXml(xmlName);
+				gennerateXml(xmlName,packageName + "." + viewName);
 				view = generateView(viewName, xmlName, bizName, "sky.core.SKYDialogFragment");
 				break;
 		}
@@ -130,7 +138,7 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				}
 				xmlName = "item_" + xmlName.toLowerCase() + "_item";
 
-				xml = gennerateXml(xmlName);
+				xml = gennerateXml(xmlName,null);
 
 				view = generateAdapter(viewName, xmlName);
 				break;
@@ -142,9 +150,9 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 				String topXml = "item_" + xmlName.toLowerCase() + "_top";
 				String bottomXml = "item_" + xmlName.toLowerCase() + "_bottom";
 
-				xml = gennerateXml(topXml);
+				xml = gennerateXml(topXml,null);
 
-				xmlMore = gennerateXml(bottomXml);
+				xmlMore = gennerateXml(bottomXml,null);
 
 				view = generateAdapterMore(viewName, topXml, bottomXml);
 				break;
@@ -231,8 +239,23 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		properties.setProperty("METHOD_DIALOG", methodDialogText.toString());
 
 		PsiFile psiClass = PsiFileFactory.getInstance(mProject).createFileFromText(fileName.toString() + ".java", JavaFileType.INSTANCE, template.getText(properties));
-
 		PsiManager.getInstance(mProject).findDirectory(psiDirectory.getVirtualFile()).add(psiClass);
+
+		// 注册 manifest
+		if (superName.endsWith("SKYActivity")) {
+			PsiFile psiFile = getManifestFile(mProject);
+			if (psiFile == null) {
+				return psiClass;
+			}
+			FileViewProvider viewProvider = psiFile.getViewProvider();
+			XmlFile xmlFile = (XmlFile) viewProvider.getPsi(StdLanguages.XML);
+			XmlTag xmlTag = xmlFile.getRootTag().findFirstSubTag("application");
+			XmlTag tag = XmlElementFactory.getInstance(mProject)
+					.createTagFromText("<activity android:name=\"" + packageName + "." + viewName + "\"\n" + "            android:screenOrientation=\"portrait\"/>");
+
+			xmlTag.addSubTag(tag,false);
+
+		}
 
 		return psiClass;
 	}
@@ -252,12 +275,12 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		return psiClass;
 	}
 
-	private PsiFile gennerateXml(String xmlName) {
+	private PsiFile gennerateXml(String xmlName,String currentName) {
 
 		StringBuilder fileName = new StringBuilder(xmlName);
 		fileName.append(".xml");
 
-		String contentText = defaultXMLContent();
+		String contentText = defaultXMLContent(currentName);
 
 		PsiDirectory directory = parentDirectory(psiDirectory);
 		if (directory == null) {
@@ -271,6 +294,13 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		}
 		psiDirectory.add(psiClass);
 		return psiClass;
+	}
+
+	public static PsiFile getManifestFile(Project project) {
+		String path = project.getBasePath() + File.separator + "app" + File.separator + "src" + File.separator + "main" + File.separator + "AndroidManifest.xml";
+		VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByPath(path);
+		if (virtualFile == null) return null;
+		return PsiManager.getInstance(project).findFile(virtualFile);
 	}
 
 	private PsiDirectory parentDirectory(PsiDirectory psiDirectory) {
@@ -288,14 +318,20 @@ public class SkyCreateFileCodeCreator extends WriteCommandAction.Simple {
 		return parentDirectory(psiDirectory.getParentDirectory());
 	}
 
-	private String defaultXMLContent() {
+	private String defaultXMLContent(String currentName) {
 		StringBuilder contentText = new StringBuilder();
 		contentText.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		contentText.append("<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n");
+		if(currentName != null) {
+			contentText.append("              xmlns:tools=\"http://schemas.android.com/tools\"\n");
+		}
 		contentText.append("              android:orientation=\"vertical\"\n");
 		contentText.append("              android:gravity=\"center\"\n");
 		contentText.append("              android:layout_width=\"match_parent\"\n");
-		contentText.append("              android:layout_height=\"match_parent\">\n");
+		contentText.append("              android:layout_height=\"match_parent\"\n");
+		if(currentName != null){
+			contentText.append("              tools:context=\""+currentName+"\">\n");
+		}
 		contentText.append("\n");
 		contentText.append("</RelativeLayout>");
 		return contentText.toString();
